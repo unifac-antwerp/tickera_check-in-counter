@@ -9,29 +9,14 @@ class App extends React.Component {
   }
 
   render() {
-    const { ticketData } = this.props;
-
-    const peopleInside = ticketData.items
-      .map(t => t && t.data && t.data.date_checked)
-      .filter(Boolean).length;
-
-    const ticketTypes = []
-      .concat(...ticketData.items.map(t => t && t.data && t.data.custom_fields))
-      .filter(t => t && t[0] === "Ticket Type");
-
-    const nonLid = ticketTypes.filter(
-      t => t && t[1] === "SOFIA 2DE ZIT TD (Geen lid)"
-    ).length;
-
-    const lid = ticketTypes.filter(t => t && t[1] === "SOFIA 2DE ZIT TD (Lid)")
-      .length;
+    const { additional, ticketTypes, checkIns } = this.props;
 
     return (
       <div>
-        <h1>checked in: {peopleInside}</h1>
-        <h1>leden: {lid}</h1>
-        <h1>non-leden: {nonLid}</h1>
-        <h1>total: {ticketData.items.length - 1}</h1>
+        <h1>checked in: {checkIns.length}</h1>
+        <h1>leden:</h1>
+        <h1>non-leden:</h1>
+        <h1>total: {additional.resultsCount}</h1>
       </div>
     );
   }
@@ -43,9 +28,12 @@ App.propTypes = {
 
 function mapStateToProps(state) {
   const { ticketData } = state;
+  const { additional, ticketTypes, checkIns } = ticketData;
 
   return {
-    ticketData
+    additional,
+    ticketTypes,
+    checkIns
   };
 }
 

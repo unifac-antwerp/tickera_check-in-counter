@@ -1,18 +1,24 @@
 import { combineReducers } from "redux";
 import { GET_TICKET_DATA } from "../actions";
+import { getCheckIns, getTicketTypes, getAdditional } from "../lib/utils";
 
 function ticketData(
   state = {
-    isFetching: false,
-    items: []
+    checkIns: [],
+    types: [],
+    additional: {}
   },
   action
 ) {
-  switch (action.type) {
+  const { type, ticketData } = action;
+
+  switch (type) {
     case GET_TICKET_DATA:
       return {
         ...state,
-        items: action.ticketData
+        checkIns: getCheckIns(ticketData),
+        ticketTypes: getTicketTypes(ticketData),
+        additional: getAdditional(ticketData)
       };
     default:
       return state;
