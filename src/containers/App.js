@@ -9,13 +9,11 @@ class App extends React.Component {
   }
 
   render() {
-    const { additional, ticketTypes, checkIns } = this.props;
+    const { additional, checkIns } = this.props;
 
     return (
       <div>
         <h1>checked in: {checkIns.length}</h1>
-        <h1>leden:</h1>
-        <h1>non-leden:</h1>
         <h1>total: {additional.resultsCount}</h1>
       </div>
     );
@@ -23,16 +21,16 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  ticketData: PropTypes.array.isRequired
+  additional: PropTypes.object.isRequired,
+  checkIns: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
   const { ticketData } = state;
-  const { additional, ticketTypes, checkIns } = ticketData;
+  const { additional, checkIns } = ticketData;
 
   return {
     additional,
-    ticketTypes,
     checkIns
   };
 }

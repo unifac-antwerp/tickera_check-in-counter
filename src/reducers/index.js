@@ -1,12 +1,11 @@
 import { combineReducers } from "redux";
 import { GET_TICKET_DATA } from "../actions";
-import { getCheckIns, getTicketTypes, getAdditional } from "../lib/utils";
+import { getCheckIns, getAdditional } from "../lib/utils";
 
 function ticketData(
   state = {
     checkIns: [],
-    types: [],
-    additional: {}
+    additional: { resultsCount: 0 }
   },
   action
 ) {
@@ -17,7 +16,6 @@ function ticketData(
       return {
         ...state,
         checkIns: getCheckIns(ticketData),
-        ticketTypes: getTicketTypes(ticketData),
         additional: getAdditional(ticketData)
       };
     default:
