@@ -1,7 +1,8 @@
 import * as React from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getTicketData } from "../actions";
+import Login from "./Login";
+import TicketStats from "./TicketStats";
 
 class App extends React.Component {
   constructor(props) {
@@ -13,17 +14,12 @@ class App extends React.Component {
 
     return (
       <div>
-        <h1>checked in: {checkIns.length}</h1>
-        <h1>total: {additional.resultsCount}</h1>
+        <Login />
+        <TicketStats additional={additional} checkIns={checkIns} />
       </div>
     );
   }
 }
-
-App.propTypes = {
-  additional: PropTypes.object.isRequired,
-  checkIns: PropTypes.array.isRequired
-};
 
 function mapStateToProps(state) {
   const { ticketData } = state;

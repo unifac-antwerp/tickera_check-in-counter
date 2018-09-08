@@ -3,16 +3,18 @@ import * as actions from "../actions";
 import { camelizeKeys } from "humps";
 const axios = require("axios");
 
-export function fetchTicketDataApi(reddit) {
+const corsFix = "https://cors-anywhere.herokuapp.com/";
+
+export function fetchTicketDataApi(apiKey) {
   return axios
     .get(
-      `${"https://cors-anywhere.herokuapp.com/"}https://www.unifac.be/tc-api/F4B7E221/tickets_info/99999/1`
+      `${corsFix}https://www.unifac.be/tc-api/${apiKey}/tickets_info/99999/1`
     )
     .then(response => camelizeKeys(response.data));
 }
 
 export function* fetchTicketData() {
-  const ticketData = yield call(fetchTicketDataApi);
+  const ticketData = yield call(fetchTicketDataApi, "F4B7E221");
   yield put(actions.getTicketData(ticketData));
 }
 
