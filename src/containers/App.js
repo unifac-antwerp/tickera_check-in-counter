@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import HomeScreen from "./HomeScreen";
+import CheckInOverview from "./CheckInOverview";
 
 class App extends React.Component {
   render() {
@@ -13,6 +14,7 @@ class App extends React.Component {
           checkIns={checkIns}
           focusMode={false}
         />
+        <CheckInOverview checkIns={checkIns} />
       </div>
     );
   }

@@ -6,8 +6,8 @@ const Counter = ({ totalCheckIns, presaleCheckIns, doorCheckIns }) => {
     <div>
       <h1>{totalCheckIns}</h1>
       <ul>
-        <li>{doorCheckIns} door</li>
-        <li>{presaleCheckIns} presale</li>
+        <li>{doorCheckIns} DOOR</li>
+        <li>{presaleCheckIns} PRESALE</li>
       </ul>
     </div>
   );

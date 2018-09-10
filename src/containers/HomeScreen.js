@@ -1,28 +1,37 @@
 import React from "react";
 import PropTypes from "prop-types";
+import moment from "moment";
 import Counter from "../components/Counter";
 import EventInfo from "../components/EventInfo";
 
-const TicketStats = ({ eventInfo, checkIns, focusMode }) => {
+const HomeScreen = ({ eventInfo, checkIns, focusMode }) => {
   return (
     <div>
-      {eventInfo.eventName && (
+      {!!eventInfo.eventName && (
         <EventInfo
-          name={eventInfo && eventInfo.eventName}
-          date={eventInfo && eventInfo.eventDateTime}
-          location={eventInfo && eventInfo.eventLocation}
-          soldTickets={eventInfo && eventInfo.soldTickets}
+          name={eventInfo.eventName}
+          date={moment(eventInfo.eventDateTime, "MMMM D, YYYY HH:mm").format(
+            "dd D MMM, HH:mm"
+          )}
+          location={eventInfo.eventLocation}
+          soldTickets={eventInfo.soldTickets}
         />
       )}
-      <Counter totalCheckIns={349} presaleCheckIns={309} doorCheckIns={40} />
+      {!!checkIns.length && (
+        <Counter
+          totalCheckIns={checkIns.length}
+          presaleCheckIns={checkIns.filter(c => c.presale).length}
+          doorCheckIns={checkIns.filter(c => !c.presale).length}
+        />
+      )}
     </div>
   );
 };
 
-TicketStats.propTypes = {
+HomeScreen.propTypes = {
   eventInfo: PropTypes.object.isRequired,
   checkIns: PropTypes.array.isRequired,
   focusMode: PropTypes.bool.isRequired
 };
 
-export default TicketStats;
+export default HomeScreen;
