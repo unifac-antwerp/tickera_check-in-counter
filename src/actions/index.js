@@ -8,9 +8,9 @@ export function getEventInfo(eventInfo) {
   };
 }
 
-export function getTicketData(ticketData) {
+export function getTicketData(checkInData) {
   return {
     type: GET_TICKET_DATA,
-    ticketData
+    checkInData
   };
 }

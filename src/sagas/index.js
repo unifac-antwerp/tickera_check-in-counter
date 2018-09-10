@@ -3,20 +3,18 @@ import * as actions from "../actions";
 import { camelizeKeys } from "humps";
 const axios = require("axios");
 
-const corsFix = "https://cors-anywhere.herokuapp.com/";
+const prefix = "https://cors-anywhere.herokuapp.com/";
 const APIKey = "F4B7E221";
 
 export function fetchEventInfoApi() {
   return axios
-    .get(`${corsFix}https://www.unifac.be/tc-api/${APIKey}/event_essentials`)
+    .get(`${prefix}https://www.unifac.be/tc-api/${APIKey}/event_essentials`)
     .then(response => camelizeKeys(response.data));
 }
 
-export function fetchTicketDataApi() {
+export function fetchCheckInDataApi() {
   return axios
-    .get(
-      `${corsFix}https://www.unifac.be/tc-api/${APIKey}/tickets_info/99999/1`
-    )
+    .get(`${prefix}https://www.unifac.be/tc-api/${APIKey}/tickets_info/9999/1`)
     .then(response => camelizeKeys(response.data));
 }
 
@@ -25,12 +23,12 @@ export function* fetchEventInfo() {
   yield put(actions.getEventInfo(eventInfo));
 }
 
-export function* fetchTicketData() {
-  const ticketData = yield call(fetchTicketDataApi);
-  yield put(actions.getTicketData(ticketData));
+export function* fetchCheckInData() {
+  const checkInData = yield call(fetchCheckInDataApi);
+  yield put(actions.getTicketData(checkInData));
 }
 
 export default function* root() {
   yield fork(fetchEventInfo);
-  yield fork(fetchTicketData);
+  yield fork(fetchCheckInData);
 }

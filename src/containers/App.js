@@ -1,30 +1,29 @@
-import * as React from "react";
+import React from "react";
 import { connect } from "react-redux";
-import { getTicketData } from "../actions";
 import HomeScreen from "./HomeScreen";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-    const { info, checkIns } = this.props;
+    const { eventInfo, checkIns } = this.props;
 
     return (
       <div>
-        <HomeScreen info={info} checkIns={checkIns} focusMode={false} />
+        <HomeScreen
+          eventInfo={eventInfo}
+          checkIns={checkIns}
+          focusMode={false}
+        />
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  const { ticketData } = state;
-  const { info, checkIns } = ticketData;
+  const { eventData } = state;
+  const { checkIns, eventInfo } = eventData;
 
   return {
-    info,
+    eventInfo,
     checkIns
   };
 }
