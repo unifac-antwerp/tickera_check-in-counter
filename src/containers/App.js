@@ -1,8 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { getTicketData } from "../actions";
-import Login from "./Login";
-import TicketStats from "./TicketStats";
+import HomeScreen from "./HomeScreen";
 
 class App extends React.Component {
   constructor(props) {
@@ -10,12 +9,11 @@ class App extends React.Component {
   }
 
   render() {
-    const { additional, checkIns } = this.props;
+    const { info, checkIns } = this.props;
 
     return (
       <div>
-        <Login />
-        <TicketStats additional={additional} checkIns={checkIns} />
+        <HomeScreen info={info} checkIns={checkIns} focusMode={false} />
       </div>
     );
   }
@@ -23,10 +21,10 @@ class App extends React.Component {
 
 function mapStateToProps(state) {
   const { ticketData } = state;
-  const { additional, checkIns } = ticketData;
+  const { info, checkIns } = ticketData;
 
   return {
-    additional,
+    info,
     checkIns
   };
 }

@@ -4,5 +4,5 @@ export const getCheckIns = ticketData =>
     .map(ticket => ticket.data && ticket.data.dateChecked)
     .filter(Boolean);
 
-export const getAdditional = ticketData =>
+export const getInfo = ticketData =>
   ticketData.map(ticket => ticket.additional).filter(Boolean)[0];

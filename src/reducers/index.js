@@ -1,11 +1,29 @@
 import { combineReducers } from "redux";
-import { GET_TICKET_DATA } from "../actions";
-import { getCheckIns, getAdditional } from "../lib/utils";
+import { GET_TICKET_DATA, GET_EVENT_INFO } from "../actions";
+import { getCheckIns, getInfo } from "../lib/utils";
+
+function eventInfo(
+  state = {
+    info: {}
+  },
+  action
+) {
+  const { type, eventInfo } = action;
+
+  switch (type) {
+    case GET_EVENT_INFO:
+      return {
+        ...state,
+        info: eventInfo
+      };
+    default:
+      return state;
+  }
+}
 
 function ticketData(
   state = {
-    checkIns: [],
-    additional: { resultsCount: 0 }
+    checkIns: []
   },
   action
 ) {
@@ -15,8 +33,7 @@ function ticketData(
     case GET_TICKET_DATA:
       return {
         ...state,
-        checkIns: getCheckIns(ticketData),
-        additional: getAdditional(ticketData)
+        checkIns: getCheckIns(ticketData)
       };
     default:
       return state;
@@ -24,7 +41,8 @@ function ticketData(
 }
 
 const rootReducer = combineReducers({
-  ticketData
+  ticketData,
+  eventInfo
 });
 
 export default rootReducer;
