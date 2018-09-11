@@ -1,7 +1,5 @@
 import moment from "moment";
 
-const doorTicketType = "SOFIA 2DE ZIT TD (Lid)";
-
 export const getCheckIns = ticketData => {
   const checkedTickets = ticketData
     .filter(t => t.data && t.data.dateChecked)
@@ -21,7 +19,7 @@ export const getCheckIns = ticketData => {
         t.data.customFields.filter(
           customField =>
             customField[0] === "Ticket Type" &&
-            customField[1] === doorTicketType
+            customField[1] === process.env.REACT_APP_DOOR_TICKET_TYPE
         ).length !== 0 &&
         t
     )

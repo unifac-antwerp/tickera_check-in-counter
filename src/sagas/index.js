@@ -4,17 +4,24 @@ import { camelizeKeys } from "humps";
 const axios = require("axios");
 
 const prefix = "https://cors-anywhere.herokuapp.com/";
-const APIKey = "F4B7E221";
 
 export function fetchEventInfoApi() {
   return axios
-    .get(`${prefix}https://www.unifac.be/tc-api/${APIKey}/event_essentials`)
+    .get(
+      `${prefix}https://www.unifac.be/tc-api/${
+        process.env.REACT_APP_EVENT_API_KEY
+      }/event_essentials`
+    )
     .then(response => camelizeKeys(response.data));
 }
 
 export function fetchCheckInDataApi() {
   return axios
-    .get(`${prefix}https://www.unifac.be/tc-api/${APIKey}/tickets_info/9999/1`)
+    .get(
+      `${prefix}https://www.unifac.be/tc-api/${
+        process.env.REACT_APP_EVENT_API_KEY
+      }/tickets_info/9999/1`
+    )
     .then(response => camelizeKeys(response.data));
 }
 
