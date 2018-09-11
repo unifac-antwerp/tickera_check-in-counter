@@ -15,15 +15,15 @@ const Subtitle = styled.h2`
 `;
 
 const SoldTicketsWrap = styled.span`
-  font-size: 2em;
+  font-size: 1.6em;
   font-weight: 600;
-  margin-top: 16px;
+  margin-top: 8px;
 `;
 
 const Image = styled.img`
   margin-right: 8px;
-  width: 22;
-  height: 14;
+  width: 20px;
+  height: 12px;
 `;
 
 const Counter = ({ name, date, location, soldTickets }) => {
@@ -34,7 +34,7 @@ const Counter = ({ name, date, location, soldTickets }) => {
         {date} - {location}
       </Subtitle>
       <SoldTicketsWrap>
-        <Image src={ico} alt="" width="22" height="14" />
+        <Image src={ico} alt="" width="20" height="12" />
         {soldTickets}
       </SoldTicketsWrap>
     </Wrap>

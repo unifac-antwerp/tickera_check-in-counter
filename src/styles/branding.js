@@ -8,12 +8,12 @@ const colors = {
 
 const textStyles = {
   heading01: css`
-    font-size: 3.6em;
+    font-size: 2em;
     text-transform: uppercase;
     font-weight: 600;
   `,
   heading02: css`
-    font-size: 1.4em;
+    font-size: 1.2em;
     text-transform: uppercase;
     color: ${colors.textSecondary};
   `
