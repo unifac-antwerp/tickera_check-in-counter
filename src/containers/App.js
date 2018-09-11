@@ -14,7 +14,7 @@ class App extends React.Component {
           checkIns={checkIns}
           focusMode={false}
         />
-        <CheckInOverview checkIns={checkIns} />
+        {/* <CheckInOverview checkIns={checkIns} /> */}
       </div>
     );
   }

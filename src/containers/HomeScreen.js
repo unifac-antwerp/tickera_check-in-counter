@@ -1,12 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 import moment from "moment";
 import Counter from "../components/Counter";
 import EventInfo from "../components/EventInfo";
 
+const Wrap = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const HomeScreen = ({ eventInfo, checkIns, focusMode }) => {
   return (
-    <div>
+    <Wrap>
       {!!eventInfo.eventName && (
         <EventInfo
           name={eventInfo.eventName}
@@ -19,12 +27,13 @@ const HomeScreen = ({ eventInfo, checkIns, focusMode }) => {
       )}
       {!!checkIns.length && (
         <Counter
+          soldTickets={eventInfo.soldTickets}
           totalCheckIns={checkIns.length}
           presaleCheckIns={checkIns.filter(c => c.presale).length}
           doorCheckIns={checkIns.filter(c => !c.presale).length}
         />
       )}
-    </div>
+    </Wrap>
   );
 };
 
