@@ -7,7 +7,6 @@ const Wrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 6vw;
 `;
 
 const Subtitle = styled.h2`
@@ -15,7 +14,7 @@ const Subtitle = styled.h2`
 `;
 
 const SoldTicketsWrap = styled.span`
-  font-size: 1.6em;
+  font-size: 1.8em;
   font-weight: 600;
   margin-top: 8px;
 `;
