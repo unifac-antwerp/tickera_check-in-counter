@@ -4,7 +4,6 @@ import { Provider } from "react-redux";
 import App from "./containers/App";
 import configureStore from "./store/configureStore";
 import rootSaga from "./sagas";
-require("dotenv").config();
 
 const store = configureStore();
 store.runSaga(rootSaga);
