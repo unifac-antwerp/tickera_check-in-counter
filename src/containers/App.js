@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import HomeScreen from "./HomeScreen";
 import CheckInOverview from "./CheckInOverview";
+import Button from "./../components/Button";
 
 class App extends React.Component {
   render() {
@@ -15,6 +16,10 @@ class App extends React.Component {
           focusMode={false}
         />
         {/* <CheckInOverview checkIns={checkIns} /> */}
+        <Button
+          text="Show Overview"
+          onClick={() => console.log("clicked btn")}
+        />
       </div>
     );
   }

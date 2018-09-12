@@ -1,12 +1,12 @@
 import { css } from "styled-components";
 
-const colors = {
+export const colors = {
   bg: "#262626",
   textDefault: "#EBF1F1",
   textSecondary: "#BEC3C7"
 };
 
-const textStyles = {
+export const textStyles = {
   heading01: css`
     font-size: 2.2em;
     text-transform: uppercase;
@@ -19,4 +19,4 @@ const textStyles = {
   `
 };
 
-export { colors, textStyles };
+export default { colors, textStyles };
