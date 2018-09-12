@@ -5,6 +5,7 @@ import moment from "moment";
 import Counter from "../components/Counter";
 import EventInfo from "../components/EventInfo";
 import Graph from "../components/Graph";
+import { removeCheckInsBeforeEventDate } from "../lib/utils";
 
 const Wrap = styled.div`
   width: 100%;
@@ -15,13 +16,13 @@ const Wrap = styled.div`
 `;
 
 const HomeScreen = ({ eventInfo, checkIns, focusMode }) => {
+  const eventDate = moment(eventInfo.eventDateTime, "MMMM D, YYYY HH:mm");
+
   return !!eventInfo.eventName || !!checkIns.length ? (
     <Wrap>
       <EventInfo
         name={eventInfo.eventName}
-        date={moment(eventInfo.eventDateTime, "MMMM D, YYYY HH:mm").format(
-          "dd D MMM, HH:mm"
-        )}
+        date={eventDate.format("dd D MMM, HH:mm")}
         location={eventInfo.eventLocation}
         soldTickets={eventInfo.soldTickets}
       />
@@ -33,7 +34,7 @@ const HomeScreen = ({ eventInfo, checkIns, focusMode }) => {
         doorCheckIns={checkIns.filter(c => !c.presale).length}
       />
 
-      <Graph checkIns={checkIns} />
+      <Graph checkIns={removeCheckInsBeforeEventDate(checkIns, eventDate)} />
     </Wrap>
   ) : (
     <Wrap>

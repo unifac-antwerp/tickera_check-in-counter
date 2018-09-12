@@ -47,7 +47,7 @@ export const getCheckIns = ticketData => {
 export const getChartData = array => {
   var result = {};
 
-  array.map(c => moment(c.checkInTime).valueOf()).map((v, i) => {
+  array.map(c => moment(c.checkInTime).valueOf()).forEach((v, i) => {
     if (!result[v]) {
       result[v] = [i];
     } else {
@@ -55,7 +55,7 @@ export const getChartData = array => {
     }
   });
 
-  Object.keys(result).map(v => {
+  Object.keys(result).forEach(v => {
     result[v] = { index: result[v], length: result[v].length };
   });
 
@@ -64,3 +64,6 @@ export const getChartData = array => {
     checkIns: value.length
   }));
 };
+
+export const removeCheckInsBeforeEventDate = (checkIns, eventDate) =>
+  checkIns.filter(c => moment(c.checkInTime).isAfter(eventDate));

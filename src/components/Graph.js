@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
+import { LineChart, Line, XAxis, YAxis } from "recharts";
 import { getChartData } from "../lib/utils";
 
 const Graph = ({ checkIns }) => (
@@ -24,7 +24,6 @@ const Graph = ({ checkIns }) => (
       hide={true}
     />
     <XAxis dataKey="time" domain={["auto", "auto"]} type="number" hide={true} />
-    <Tooltip />
   </LineChart>
 );
 
