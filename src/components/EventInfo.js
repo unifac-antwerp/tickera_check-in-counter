@@ -30,12 +30,16 @@ const Counter = ({ name, date, location, soldTickets }) => {
     <Wrap>
       <h1>{name}</h1>
       <Subtitle>
-        {date} - {location}
+        {date}
+        {date && location && " - "}
+        {location}
       </Subtitle>
-      <SoldTicketsWrap>
-        <Image src={ico} alt="" width="20" height="12" />
-        {soldTickets}
-      </SoldTicketsWrap>
+      {soldTickets && (
+        <SoldTicketsWrap>
+          <Image src={ico} alt="" width="20" height="12" />
+          {soldTickets}
+        </SoldTicketsWrap>
+      )}
     </Wrap>
   );
 };

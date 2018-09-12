@@ -7,9 +7,13 @@ const Wrap = styled.div`
   padding: 8px 16px;
   border-radius: 2px;
   display: inline-block;
+  margin-bottom: 32px;
+  user-select: none;
+  ${props => props.loading && "opacity: 0.2;"};
+  ${props => props.loading && "pointer-events: none;"};
 
   &:hover {
-    cursor: pointer;
+    ${props => !props.loading && "cursor: pointer;"};
   }
 `;
 
@@ -19,9 +23,9 @@ const Text = styled.span`
   font-weight: 600;
 `;
 
-const Button = ({ text, onClick }) => {
+const Button = ({ text, onClick, loading }) => {
   return (
-    <Wrap onClick={onClick}>
+    <Wrap onClick={onClick} loading={loading}>
       <Text>{text}</Text>
     </Wrap>
   );
@@ -29,7 +33,8 @@ const Button = ({ text, onClick }) => {
 
 Button.propTypes = {
   text: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 export default Button;

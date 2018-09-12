@@ -15,7 +15,7 @@ const Wrap = styled.div`
 `;
 
 const HomeScreen = ({ eventInfo, checkIns, focusMode }) => {
-  return !!eventInfo.eventName || !!checkIns.length ? (
+  return !!eventInfo.eventName && !!checkIns.length ? (
     <Wrap>
       <EventInfo
         name={eventInfo.eventName}
@@ -37,7 +37,7 @@ const HomeScreen = ({ eventInfo, checkIns, focusMode }) => {
     </Wrap>
   ) : (
     <Wrap>
-      <h1>Loading...</h1>
+      <h2>Loading...</h2>
     </Wrap>
   );
 };

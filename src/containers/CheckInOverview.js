@@ -1,10 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 import CheckInListItem from "../components/CheckInListItem";
+
+const ListWrap = styled.ul`
+  height: 100%;
+  overflow-y: scroll;
+  margin: 32px 0 40px;
+  width: 300px;
+`;
 
 const CheckInOverview = ({ checkIns }) => {
   return (
-    <ul>
+    <ListWrap>
       {checkIns.map(c => (
         <CheckInListItem
           key={c.id}
@@ -14,7 +22,7 @@ const CheckInOverview = ({ checkIns }) => {
           checkInTime={c.checkInTime}
         />
       ))}
-    </ul>
+    </ListWrap>
   );
 };
 

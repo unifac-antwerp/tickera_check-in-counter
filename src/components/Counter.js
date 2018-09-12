@@ -62,8 +62,8 @@ const Counter = ({
       <ContentWrap>
         <Total>{totalCheckIns}</Total>
         <LegendList>
-          <LegendListItem>{doorCheckIns} DOOR</LegendListItem>
-          <LegendListItem>{presaleCheckIns} PRESALE</LegendListItem>
+          <LegendListItem>{doorCheckIns} ADK</LegendListItem>
+          <LegendListItem>{presaleCheckIns} VVK</LegendListItem>
         </LegendList>
       </ContentWrap>
     </Wrap>
