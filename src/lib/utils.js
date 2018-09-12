@@ -43,3 +43,24 @@ export const getCheckIns = ticketData => {
     }))
     .sort((a, b) => a.checkInTime.diff(b.checkInTime));
 };
+
+export const getChartData = array => {
+  var result = {};
+
+  array.map(c => moment(c.checkInTime).valueOf()).map((v, i) => {
+    if (!result[v]) {
+      result[v] = [i];
+    } else {
+      result[v].push(i);
+    }
+  });
+
+  Object.keys(result).map(v => {
+    result[v] = { index: result[v], length: result[v].length };
+  });
+
+  return Object.entries(result).map(([key, value]) => ({
+    time: Number(key),
+    checkIns: value.length
+  }));
+};
