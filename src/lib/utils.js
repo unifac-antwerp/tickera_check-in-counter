@@ -47,11 +47,16 @@ export const getCheckIns = ticketData => {
 export const getChartData = array => {
   var result = {};
 
-  array.map(c => moment(c.checkInTime).valueOf()).forEach((v, i) => {
-    if (!result[v]) {
-      result[v] = [i];
+  const strippedArray = array.map(c => ({
+    time: moment(c.checkInTime).valueOf(),
+    presale: c.presale
+  }));
+
+  strippedArray.forEach((v, i) => {
+    if (!result[v.time]) {
+      result[v.time] = [i];
     } else {
-      result[v].push(i);
+      result[v.time].push(i);
     }
   });
 
@@ -66,4 +71,6 @@ export const getChartData = array => {
 };
 
 export const removeCheckInsBeforeEventDate = (checkIns, eventDate) =>
-  checkIns.filter(c => moment(c.checkInTime).isAfter(eventDate));
+  checkIns.filter(c =>
+    moment(c.checkInTime).isAfter(moment(eventDate, "MMMM D, YYYY HH:mm"))
+  );

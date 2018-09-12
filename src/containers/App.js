@@ -4,6 +4,7 @@ import styled from "styled-components";
 import HomeScreen from "./HomeScreen";
 import CheckInOverview from "./CheckInOverview";
 import Button from "./../components/Button";
+import { removeCheckInsBeforeEventDate } from "../lib/utils";
 
 const Wrap = styled.div`
   display: flex;
@@ -36,7 +37,14 @@ class App extends React.Component {
             focusMode={false}
           />
         )}
-        {showOverview && <CheckInOverview checkIns={checkIns} />}
+        {showOverview && (
+          <CheckInOverview
+            checkIns={removeCheckInsBeforeEventDate(
+              checkIns,
+              eventInfo.eventDateTime
+            )}
+          />
+        )}
         <Button
           text={!showOverview ? "Show Check In's" : "Show Counter"}
           loading={!checkIns.length}
