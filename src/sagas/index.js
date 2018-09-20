@@ -1,9 +1,13 @@
 import { put, call, fork } from "redux-saga/effects";
+import { eventChannel } from "redux-saga";
 import * as actions from "../actions";
 import { camelizeKeys } from "humps";
 const axios = require("axios");
 
 const prefix = "https://cors-anywhere.herokuapp.com/";
+
+// update interval in seconds
+const updateInterval = 120;
 
 export function fetchEventInfoApi() {
   return axios
@@ -16,13 +20,29 @@ export function fetchEventInfoApi() {
 }
 
 export function fetchCheckInDataApi() {
-  return axios
+  let result = {};
+  result = axios
     .get(
       `${prefix}https://www.unifac.be/tc-api/${
         process.env.REACT_APP_EVENT_API_KEY
       }/tickets_info/9999/1`
     )
     .then(response => camelizeKeys(response.data));
+  eventChannel(emitter => {
+    const iv = setInterval(() => {
+      result = axios
+        .get(
+          `${prefix}https://www.unifac.be/tc-api/${
+            process.env.REACT_APP_EVENT_API_KEY
+          }/tickets_info/9999/1`
+        )
+        .then(response => camelizeKeys(response.data));
+    }, updateInterval * 1000);
+    return () => {
+      clearInterval(iv);
+    };
+  });
+  return result;
 }
 
 export function* fetchEventInfo() {
