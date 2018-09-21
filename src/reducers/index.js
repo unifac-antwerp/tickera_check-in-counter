@@ -17,7 +17,7 @@ function eventData(
           ...action.eventInfo,
           soldTickets:
             Number(action.eventInfo.soldTickets) +
-              Number(process.env.REACT_APP_OFFLINE_TICKETS_AMOUNT) || 0
+            (Number(process.env.REACT_APP_OFFLINE_TICKETS_AMOUNT) || 0)
         }
       };
     case GET_TICKET_DATA:
