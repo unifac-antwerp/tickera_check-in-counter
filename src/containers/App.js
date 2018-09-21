@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import moment from "moment";
 import HomeScreen from "./HomeScreen";
 import CheckInOverview from "./CheckInOverview";
 import Button from "./../components/Button";
@@ -33,7 +34,7 @@ class App extends React.Component {
         {!showOverview && (
           <HomeScreen
             eventInfo={eventInfo}
-            checkIns={checkIns}
+            checkIns={checkIns.filter(c => c.checkInTime < moment())}
             focusMode={false}
           />
         )}
@@ -42,7 +43,7 @@ class App extends React.Component {
             checkIns={removeCheckInsBeforeEventDate(
               checkIns,
               eventInfo.eventDateTime
-            )}
+            ).filter(c => !c.offlineTicket)}
           />
         )}
         <Button

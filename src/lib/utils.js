@@ -31,15 +31,33 @@ export const getCheckIns = ticketData => {
         }
     );
 
+  const offlineTickets = [];
+  for (let i = 0; i < process.env.REACT_APP_OFFLINE_TICKETS_AMOUNT || 0; i++) {
+    offlineTickets.push({
+      offlineTicket: true,
+      checkInTime: moment(checkedTickets[0].dateChecked, "MMMM D, YYYY HH:mm")
+        .hour(23)
+        .add(1, "hour")
+        .add(
+          (120 / process.env.REACT_APP_OFFLINE_TICKETS_AMOUNT || 0) * i,
+          "minutes"
+        )
+    });
+  }
+
   return checkedTickets
     .concat(doorTickets)
+    .concat(offlineTickets)
     .map((t, index) => ({
       id: index,
       firstname: t.buyerFirst || "firstname",
       lastname: t.buyerLast || "lastname",
-      presale: t.presale,
+      presale: t.presale || false,
+      offlineTicket: t.offlineTicket || false,
       checkInTime:
-        moment(t.dateChecked || t.paymentDate, "MMMM D, YYYY HH:mm") || "--:--"
+        t.checkInTime ||
+        moment(t.dateChecked || t.paymentDate, "MMMM D, YYYY HH:mm") ||
+        {}
     }))
     .sort((a, b) => a.checkInTime.diff(b.checkInTime));
 };
