@@ -18,7 +18,10 @@ function eventData(
     case GET_TICKET_DATA:
       return {
         ...state,
-        checkIns: getCheckIns(action.checkInData)
+        checkIns: getCheckIns(
+          action.checkInData,
+          state.eventInfo && state.eventInfo.eventDateTime
+        )
       };
     default:
       return state;

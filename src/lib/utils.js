@@ -1,72 +1,76 @@
 import moment from "moment";
+import { DOOR_TICKET_TYPE, OFFLINE_TICKET_TYPE } from "./constants";
 
-export const getCheckIns = ticketData => {
-  const checkedTickets = ticketData
-    .filter(t => t.data && t.data.dateChecked)
-    .filter(Boolean)
-    .map(
-      t =>
-        t.data && {
-          ...t.data,
-          presale: true
-        }
-    );
-
-  const doorTickets = ticketData
-    .filter(
-      t =>
-        t.data &&
-        t.data.customFields.filter(
-          customField =>
-            customField[0] === "Ticket Type" &&
-            customField[1] === process.env.REACT_APP_DOOR_TICKET_TYPE
-        ).length !== 0 &&
-        t
-    )
-    .map(
-      t =>
-        t.data && {
-          ...t.data,
-          presale: false
-        }
-    );
-
-  const offlineTickets = ticketData.filter(
-    t =>
-      t.data &&
-      t.data.customFields.filter(
-        customField =>
-          customField[0] === "Ticket Type" &&
-          customField[1] === process.env.REACT_APP_OFFLINE_TICKET_TYPE
-      ).length !== 0 &&
-      t
+const getCheckedTickets = ticketData =>
+  enhanceCheckInData(
+    ticketData.filter(t => t.data && t.data.dateChecked).filter(Boolean),
+    {
+      presale: true
+    }
   );
 
-  const offlineTicketsMapped = offlineTickets.map(
-    (t, i) =>
-      t.data && {
-        ...t.data,
+const getDoorTickets = ticketData =>
+  enhanceCheckInData(getTicketsByType(ticketData, DOOR_TICKET_TYPE), {
+    presale: false
+  });
+
+const getOfflineTickets = (ticketData, eventDate) => {
+  const offlineTickets = getTicketsByType(ticketData, OFFLINE_TICKET_TYPE);
+
+  return offlineTickets.map(
+    (ticket, i) =>
+      ticket.data && {
+        ...ticket.data,
         presale: false,
         offlineTicket: true,
-        checkInTime: moment(checkedTickets[0].dateChecked, "MMMM D, YYYY HH:mm")
-          .hour(23)
-          .add(1, "hour")
+        checkInTime: moment(eventDate, "D MMMM, YYYY HH:mm")
+          .add(30, "minutes")
           .add((120 / offlineTickets.length || 0) * i, "minutes")
       }
   );
+};
+
+const enhanceCheckInData = (ticketData, enhanceData) =>
+  ticketData.map(
+    ticket =>
+      ticket.data && {
+        ...ticket.data,
+        ...enhanceData
+      }
+  );
+
+const getTicketsByType = (ticketData, type) =>
+  ticketData.filter(
+    ticket =>
+      ticket.data &&
+      ticket.data.customFields.filter(
+        customField =>
+          customField[0] === "Ticket Type" && customField[1] === type
+      ).length !== 0 &&
+      ticket
+  );
+
+export const getCheckIns = (ticketData, eventDate) => {
+  const checkedTickets = getCheckedTickets(ticketData);
+  const doorTickets = getDoorTickets(ticketData);
+  const offlineTickets = eventDate && getOfflineTickets(ticketData, eventDate);
 
   return checkedTickets
     .concat(doorTickets)
-    .concat(offlineTicketsMapped)
-    .map((t, index) => ({
+    .concat(offlineTickets)
+    .filter(ticket => ticket !== undefined)
+    .map((ticket, index) => ({
       id: index,
-      firstname: t.buyerFirst || "firstname",
-      lastname: t.buyerLast || "lastname",
-      presale: t.presale || false,
-      offlineTicket: t.offlineTicket || false,
+      firstname: ticket.buyerFirst || "firstname",
+      lastname: ticket.buyerLast || "lastname",
+      presale: ticket.presale || false,
+      offlineTicket: ticket.offlineTicket || false,
       checkInTime:
-        t.checkInTime ||
-        moment(t.dateChecked || t.paymentDate, "MMMM D, YYYY HH:mm") ||
+        ticket.checkInTime ||
+        moment(
+          ticket.dateChecked || ticket.paymentDate,
+          "MMMM D, YYYY HH:mm"
+        ) ||
         {}
     }))
     .sort((a, b) => a.checkInTime.diff(b.checkInTime));
@@ -75,22 +79,19 @@ export const getCheckIns = ticketData => {
 export const getChartData = array => {
   var result = {};
 
-  const strippedArray = array.map(c => ({
-    time: moment(c.checkInTime).valueOf(),
-    presale: c.presale
-  }));
+  array
+    .map(c => ({
+      time: moment(c.checkInTime).valueOf(),
+      presale: c.presale
+    }))
+    .forEach(
+      (v, i) =>
+        !result[v.time] ? (result[v.time] = [i]) : result[v.time].push(i)
+    );
 
-  strippedArray.forEach((v, i) => {
-    if (!result[v.time]) {
-      result[v.time] = [i];
-    } else {
-      result[v.time].push(i);
-    }
-  });
-
-  Object.keys(result).forEach(v => {
-    result[v] = { index: result[v], length: result[v].length };
-  });
+  Object.keys(result).forEach(
+    v => (result[v] = { index: result[v], length: result[v].length })
+  );
 
   return Object.entries(result).map(([key, value]) => ({
     time: Number(key),
@@ -100,5 +101,5 @@ export const getChartData = array => {
 
 export const removeCheckInsBeforeEventDate = (checkIns, eventDate) =>
   checkIns.filter(c =>
-    moment(c.checkInTime).isAfter(moment(eventDate, "MMMM D, YYYY HH:mm"))
+    moment(c.checkInTime).isAfter(moment(eventDate, "D MMMM, YYYY HH:mm"))
   );

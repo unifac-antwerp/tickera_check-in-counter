@@ -8,6 +8,7 @@ import {
   LegendList,
   LegendListItem
 } from "./Counter.styled";
+import { getProgress } from "./Counter.utils";
 
 const Counter = ({
   soldTickets,
@@ -20,7 +21,7 @@ const Counter = ({
       <StyledProgressRing
         radius={150}
         stroke={8}
-        progress={(100 / soldTickets) * (doorCheckIns + presaleCheckIns)}
+        progress={getProgress(totalCheckIns, soldTickets)}
       />
       <ContentWrap>
         <Total>{totalCheckIns}</Total>
