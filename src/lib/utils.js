@@ -1,6 +1,6 @@
 import { isAfter } from "date-fns";
 import { DOOR_TICKET_TYPE, OFFLINE_TICKET_TYPE } from "./constants";
-import { getUnixTime, parse, compareAsc, addMinutes } from "date-fns";
+import { getUnixTime, parse, addMinutes } from "date-fns";
 import nl from "date-fns/locale/nl";
 
 const getCheckedTickets = ticketData =>
@@ -27,7 +27,7 @@ const getOfflineTickets = (ticketData, eventDate) => {
         offlineTicket: true,
         checkInTime: addMinutes(
           eventDate,
-          (120 / offlineTickets.length || 0) * i + 30
+          (60 / offlineTickets.length || 0) * i + 30
         )
       }
   );
@@ -53,6 +53,22 @@ const getTicketsByType = (ticketData, type) =>
       ticket
   );
 
+const getCheckInTime = ticket => {
+  const dateFormat = "d MMMM yyyy - HH:mm";
+
+  if (ticket.checkInTime) {
+    return ticket.checkInTime;
+  } else if (ticket.dateChecked) {
+    return parse(ticket.dateChecked, dateFormat, new Date(), {
+      locale: nl
+    });
+  } else if (ticket.paymentDate) {
+    return parse(ticket.paymentDate, dateFormat, new Date());
+  } else {
+    return new Date();
+  }
+};
+
 export const getCheckIns = (ticketData, eventDate) => {
   const checkedTickets = getCheckedTickets(ticketData);
   const doorTickets = getDoorTickets(ticketData);
@@ -68,17 +84,16 @@ export const getCheckIns = (ticketData, eventDate) => {
       lastname: ticket.buyerLast || "lastname",
       presale: ticket.presale || false,
       offlineTicket: ticket.offlineTicket || false,
-      checkInTime:
-        ticket.checkInTime ||
-        parse(
-          ticket.dateChecked || ticket.paymentDate,
-          "d MMMM yyyy - HH:mm",
-          new Date(),
-          { locale: nl }
-        ) ||
-        {}
+      checkInTime: getCheckInTime(ticket)
     }))
-    .sort(compareAsc);
+    .sort(
+      (a, b) =>
+        a.checkInTime > b.checkInTime
+          ? 1
+          : b.checkInTime > a.checkInTime
+            ? -1
+            : 0
+    );
 };
 
 export const getChartData = array => {
