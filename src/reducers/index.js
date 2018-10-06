@@ -13,12 +13,7 @@ function eventData(
     case GET_EVENT_INFO:
       return {
         ...state,
-        eventInfo: {
-          ...action.eventInfo,
-          soldTickets:
-            Number(action.eventInfo.soldTickets) +
-            (Number(process.env.REACT_APP_OFFLINE_TICKETS_AMOUNT) || 0)
-        }
+        eventInfo: action.eventInfo
       };
     case GET_TICKET_DATA:
       return {
