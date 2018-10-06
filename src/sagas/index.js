@@ -20,12 +20,12 @@ export function fetchEventInfoApi() {
 export function fetchCheckInDataApi() {
   let result = {};
   result = api
-    .get("/tickets_info/9999/1")
+    .get("/tickets_info/3000/1")
     .then(response => camelizeKeys(response.data));
   eventChannel(emitter => {
     const iv = setInterval(() => {
       result = api
-        .get("/tickets_info/9999/1")
+        .get("/tickets_info/3000/1")
         .then(response => camelizeKeys(response.data));
     }, updateInterval * 1000);
     return () => {
