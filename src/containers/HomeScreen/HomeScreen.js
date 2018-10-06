@@ -1,18 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import moment from "moment";
+import { format } from "date-fns";
 import { Counter, EventInfo, Graph } from "../../components";
 import { removeCheckInsBeforeEventDate } from "../../lib/utils";
 import { Wrap } from "./HomeScreen.styled";
 
 const HomeScreen = ({ eventInfo, checkIns }) => {
-  const eventDate = moment(eventInfo.eventDateTime, "D MMMM, YYYY HH:mm");
-
   return !!eventInfo.eventName || !!checkIns.length ? (
     <Wrap>
       <EventInfo
         name={eventInfo.eventName}
-        date={eventDate.format("dd D MMM, HH:mm")}
+        date={format(eventInfo.eventDateTime, "EEEEEE d MMM, HH:mm")}
         location={eventInfo.eventLocation}
         soldTickets={eventInfo.soldTickets}
       />
@@ -24,7 +22,12 @@ const HomeScreen = ({ eventInfo, checkIns }) => {
         doorCheckIns={checkIns.filter(c => !c.presale).length}
       />
 
-      <Graph checkIns={removeCheckInsBeforeEventDate(checkIns, eventDate)} />
+      <Graph
+        checkIns={removeCheckInsBeforeEventDate(
+          checkIns,
+          eventInfo.eventDateTime
+        )}
+      />
     </Wrap>
   ) : (
     <Wrap>

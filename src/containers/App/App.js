@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import moment from "moment";
 import HomeScreen from "../HomeScreen";
 import { Wrap } from "./App.styled";
 
@@ -12,7 +11,7 @@ class App extends React.Component {
       <Wrap>
         <HomeScreen
           eventInfo={eventInfo}
-          checkIns={checkIns.filter(c => c.checkInTime < moment())}
+          checkIns={checkIns.filter(c => c.checkInTime < new Date())}
         />
       </Wrap>
     );

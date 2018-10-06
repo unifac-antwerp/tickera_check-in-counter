@@ -1,5 +1,6 @@
-import moment from "moment";
+import { isAfter } from "date-fns";
 import { DOOR_TICKET_TYPE, OFFLINE_TICKET_TYPE } from "./constants";
+import { getUnixTime, parse, compareAsc, addMinutes } from "date-fns";
 
 const getCheckedTickets = ticketData =>
   enhanceCheckInData(
@@ -23,9 +24,10 @@ const getOfflineTickets = (ticketData, eventDate) => {
         ...ticket.data,
         presale: false,
         offlineTicket: true,
-        checkInTime: moment(eventDate, "D MMMM, YYYY HH:mm")
-          .add(30, "minutes")
-          .add((120 / offlineTickets.length || 0) * i, "minutes")
+        checkInTime: addMinutes(
+          eventDate,
+          (120 / offlineTickets.length || 0) * i + 30
+        )
       }
   );
 };
@@ -67,23 +69,26 @@ export const getCheckIns = (ticketData, eventDate) => {
       offlineTicket: ticket.offlineTicket || false,
       checkInTime:
         ticket.checkInTime ||
-        moment(
+        parse(
           ticket.dateChecked || ticket.paymentDate,
-          "MMMM D, YYYY HH:mm"
+          "d MMMM yyyy - HH:mm",
+          new Date()
         ) ||
         {}
     }))
-    .sort((a, b) => a.checkInTime.diff(b.checkInTime));
+    .sort(compareAsc);
 };
 
 export const getChartData = array => {
   var result = {};
 
   array
-    .map(c => ({
-      time: moment(c.checkInTime).valueOf(),
-      presale: c.presale
-    }))
+    .map(c => {
+      return {
+        time: getUnixTime(c.checkInTime),
+        presale: c.presale
+      };
+    })
     .forEach(
       (v, i) =>
         !result[v.time] ? (result[v.time] = [i]) : result[v.time].push(i)
@@ -100,6 +105,4 @@ export const getChartData = array => {
 };
 
 export const removeCheckInsBeforeEventDate = (checkIns, eventDate) =>
-  checkIns.filter(c =>
-    moment(c.checkInTime).isAfter(moment(eventDate, "D MMMM, YYYY HH:mm"))
-  );
+  checkIns.filter(checkIn => isAfter(checkIn.checkInTime, eventDate));
