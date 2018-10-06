@@ -1,6 +1,7 @@
 import { isAfter } from "date-fns";
 import { DOOR_TICKET_TYPE, OFFLINE_TICKET_TYPE } from "./constants";
 import { getUnixTime, parse, compareAsc, addMinutes } from "date-fns";
+import nl from "date-fns/locale/nl";
 
 const getCheckedTickets = ticketData =>
   enhanceCheckInData(
@@ -72,7 +73,8 @@ export const getCheckIns = (ticketData, eventDate) => {
         parse(
           ticket.dateChecked || ticket.paymentDate,
           "d MMMM yyyy - HH:mm",
-          new Date()
+          new Date(),
+          { locale: nl }
         ) ||
         {}
     }))
