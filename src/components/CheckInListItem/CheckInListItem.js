@@ -1,24 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
-
-const Wrap = styled.li`
-  display: flex;
-  justify-content: space-between;
-  font-size: 1.4em;
-  margin: 4px 0;
-  padding-right: 12px;
-`;
-
-const Name = styled.span`
-  font-weight: 600;
-`;
-
-const Type = styled.span`
-  font-size: 10px;
-`;
-
-const Time = styled.span``;
+import { Wrap, Name, Type, Time } from "./CheckInListItem.styled";
 
 const Counter = ({ firstname, lastname, presale, checkInTime }) => {
   return (

@@ -1,14 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
-import CheckInListItem from "../components/CheckInListItem";
-
-const ListWrap = styled.ul`
-  height: 100%;
-  overflow-y: scroll;
-  margin: 32px 0 40px;
-  width: 300px;
-`;
+import CheckInListItem from "../../components/CheckInListItem";
+import { ListWrap } from "./CheckInOverview.styled";
 
 const CheckInOverview = ({ checkIns }) => {
   return (

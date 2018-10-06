@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { LineChart, Line, XAxis, YAxis } from "recharts";
-import { getChartData } from "../lib/utils";
+import { getChartData } from "../../lib/utils";
 
 const Graph = ({ checkIns }) => (
   <LineChart

@@ -1,19 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import moment from "moment";
-import Counter from "../components/Counter";
-import EventInfo from "../components/EventInfo";
-import Graph from "../components/Graph";
-import { removeCheckInsBeforeEventDate } from "../lib/utils";
-
-const Wrap = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 6vw;
-`;
+import Counter from "../../components/Counter";
+import EventInfo from "../../components/EventInfo";
+import Graph from "../../components/Graph";
+import { removeCheckInsBeforeEventDate } from "../../lib/utils";
+import { Wrap } from "./HomeScreen.styled";
 
 const HomeScreen = ({ eventInfo, checkIns, focusMode }) => {
   const eventDate = moment(eventInfo.eventDateTime, "MMMM D, YYYY HH:mm");

@@ -1,21 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import styled from "styled-components";
 import moment from "moment";
-import HomeScreen from "./HomeScreen";
-import CheckInOverview from "./CheckInOverview";
-import Button from "./../components/Button";
-import { removeCheckInsBeforeEventDate } from "../lib/utils";
-
-const Wrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  height: 100vh;
-  max-height: 720px;
-  min-height: 580px;
-`;
+import HomeScreen from "../HomeScreen";
+import CheckInOverview from "../CheckInOverview";
+import Button from "./../../components/Button";
+import { removeCheckInsBeforeEventDate } from "../../lib/utils";
+import { Wrap } from "./App.styled";
 
 class App extends React.Component {
   constructor(props) {
