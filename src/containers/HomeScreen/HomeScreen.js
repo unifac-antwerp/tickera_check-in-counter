@@ -1,11 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { format } from "date-fns";
+import { withTheme } from "styled-components";
+import { ScaleLoader } from "react-spinners";
 import { Counter, EventInfo, Graph } from "../../components";
 import { removeCheckInsBeforeEventDate } from "../../lib/utils";
 import { Wrap } from "./HomeScreen.styled";
 
-const HomeScreen = ({ eventInfo, checkIns }) => {
+const HomeScreen = ({ eventInfo, checkIns, theme }) => {
   return !!eventInfo.eventName || !!checkIns.length ? (
     <Wrap>
       <EventInfo
@@ -31,7 +33,7 @@ const HomeScreen = ({ eventInfo, checkIns }) => {
     </Wrap>
   ) : (
     <Wrap>
-      <h2>Loading...</h2>
+      <ScaleLoader height={16} color={theme.colors.textSecondary} />
     </Wrap>
   );
 };
@@ -41,4 +43,4 @@ HomeScreen.propTypes = {
   checkIns: PropTypes.array.isRequired
 };
 
-export default HomeScreen;
+export default withTheme(HomeScreen);
