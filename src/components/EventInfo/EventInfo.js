@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ico from "../../assets/svg/ico-total-tickets.svg";
-import { Wrap, Subtitle, SoldTicketsWrap, Image } from "./EventInfo.styled";
+import { Wrap, Subtitle, SoldTicketsWrap, Icon } from "./EventInfo.styled";
 
 const EventInfo = ({ name, date, location, soldTickets }) => {
   return (
@@ -14,7 +13,7 @@ const EventInfo = ({ name, date, location, soldTickets }) => {
       </Subtitle>
       {soldTickets && (
         <SoldTicketsWrap>
-          <Image src={ico} alt="" width="20" height="12" />
+          <Icon />
           {soldTickets}
         </SoldTicketsWrap>
       )}

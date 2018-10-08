@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import PeopleIcon from "../../assets/icons/PeopleIcon";
 
 export const Wrap = styled.div`
   display: flex;
@@ -16,8 +17,6 @@ export const SoldTicketsWrap = styled.span`
   margin-top: 8px;
 `;
 
-export const Image = styled.img`
+export const Icon = styled(PeopleIcon)`
   margin-right: 8px;
-  width: 20px;
-  height: 12px;
 `;
