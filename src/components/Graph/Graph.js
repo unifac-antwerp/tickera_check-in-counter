@@ -10,7 +10,7 @@ const axisValues = {
 };
 
 const Graph = ({ checkIns }) => (
-  <ResponsiveContainer width="80%" height={64}>
+  <ResponsiveContainer width="88%" height={64}>
     <LineChart data={getChartData(checkIns)} margin={{ top: 16 }}>
       <Line
         type="monotone"
